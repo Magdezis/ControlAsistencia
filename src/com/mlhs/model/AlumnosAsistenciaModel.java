@@ -8,7 +8,8 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class AlumnosAsistenciaModel {
-    private final int idestudiante; 
+
+    private final int idestudiante;
     private final String nombre;
     private final String apellido;
     private final String codigoTarjeta;
@@ -16,9 +17,8 @@ public class AlumnosAsistenciaModel {
     private final String carneEstudiante;
     private final EstadoAsistencia asistencia;
 
-
     public AlumnosAsistenciaModel(
-            int idestudiante, 
+            int idestudiante,
             String nombre,
             String apellido,
             String codigoTarjeta,
@@ -50,7 +50,7 @@ public class AlumnosAsistenciaModel {
     public EstadoAsistencia getAsistencia() {
         return asistencia;
     }
-    
+
     public String getCorreoInstitucional() {
         return correoInstitucional;
     }
@@ -62,11 +62,7 @@ public class AlumnosAsistenciaModel {
     public int getIdestudiante() {
         return idestudiante;
     }
-    
-    
-    
-    
-    
+
     public static ObservableList<AlumnosAsistenciaModel> obtenerAsistencias(
             String jornada,
             String seccion,
@@ -104,41 +100,32 @@ public class AlumnosAsistenciaModel {
 
         return lista;
     }
-    
-  public static boolean marcarPresente(
-        String codigoTarjeta,
-        int idJornada,
-        int idSeccion
-) {
 
-    String sql = """
-        UPDATE estudiantes
-        SET asistencia = ?,
-            fechaAsistencia = ?
-        WHERE codigoTarjeta = ?
-          AND fk_jornada = ?
-          AND fk_seccion = ?
-          
-    """;
+    public static boolean marcarPresente(
+            String codigoTarjeta,
+            int idJornada,
+            int idSeccion
+    ) {
+        //carne, asistencia, fecha
+        String sql = "{call asistencia_kinal2026.sp_marcado_asistencia(?, ?, ?)}";
 
-    try (Connection conn = DataBaseConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DataBaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, codigoTarjeta);
+            ps.setString(2, EstadoAsistencia.PRESENTE.name());
+            ps.setDate(3, Date.valueOf(LocalDate.now()));
 
-        ps.setString(1, EstadoAsistencia.PRESENTE.name());
-        ps.setDate(2, Date.valueOf(LocalDate.now()));
-        ps.setString(3, codigoTarjeta);
+            /*
         ps.setInt(4, idJornada);
         ps.setInt(5, idSeccion);
        
+             */
+            return ps.executeUpdate() > 0;
 
-        return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return false;
     }
-
-    return false;
-}
-
 
 }
