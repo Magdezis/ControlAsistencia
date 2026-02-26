@@ -1,4 +1,3 @@
-
 package com.mlhs.model;
 
 import com.mlhs.config.DataBaseConnection;
@@ -42,8 +41,6 @@ public class JornadaModel {
     
     }
     
-    
-    
     public ObservableList<JornadaModel> obtenerJornadas(){
      ObservableList<JornadaModel> jornadas = FXCollections.observableArrayList();
      String sqlJornadas = "SELECT * FROM jornada";
@@ -64,8 +61,6 @@ public class JornadaModel {
      }
      return jornadas = FXCollections.observableArrayList(jornadas); 
     }
-    
-    
     
     @Override 
     public String toString(){

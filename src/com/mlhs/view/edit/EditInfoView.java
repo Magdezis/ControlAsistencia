@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mlhs.view.edit;
 
 import com.mlhs.controller.EditInfoController;
@@ -65,13 +61,9 @@ public class EditInfoView {
 
         // Overlay oscuro
         root.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
-        // root.setPrefSize(250, 250);
         root.setVisible(false);
-
-        // 🧩 Contenido visible
         modal.setPadding(new Insets(20));
         modal.setStyle("-fx-background-color: white;");
-
         modal.setPrefWidth(300);
         modal.setMaxWidth(300);
 
@@ -144,7 +136,7 @@ public class EditInfoView {
     }
 
     public Parent getRoot() {
-        return root; // ✅ AHORA SÍ
+        return root;
     }
     
 }

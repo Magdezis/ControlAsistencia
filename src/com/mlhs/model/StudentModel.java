@@ -87,10 +87,5 @@ public class StudentModel {
     public void setJornada(String jornada) {
         this.jornada = jornada;
     }
-    
-    
-    
-  
-    
-    
+ 
 }

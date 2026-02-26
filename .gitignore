@@ -1,0 +1,19 @@
+#archivos de compilacion
+*.class
+*.jar
+*.war
+*.ear
+
+#carpetas de compilacion 
+build/
+dist/
+target/
+
+#netbeans
+nbproject/private/
+
+#logs
+*.log
+
+#IDE
+nbproject/private/

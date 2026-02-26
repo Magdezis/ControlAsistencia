@@ -92,7 +92,6 @@ public class AlumnosAsistenciaModel {
                         EstadoAsistencia.valueOf(rs.getString("asistencia"))
                 ));
             }
-            System.out.println("llego al metodo ");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,24 +100,18 @@ public class AlumnosAsistenciaModel {
         return lista;
     }
 
-    public static boolean marcarPresente(
+  public static boolean marcarPresente(
             String codigoTarjeta,
-            int idJornada,
-            int idSeccion
+            EstadoAsistencia asistencia,
+           LocalDate fecha
     ) {
         //carne, asistencia, fecha
         String sql = "{call asistencia_kinal2026.sp_marcado_asistencia(?, ?, ?)}";
 
         try (Connection conn = DataBaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, codigoTarjeta);
-            ps.setString(2, EstadoAsistencia.PRESENTE.name());
-            ps.setDate(3, Date.valueOf(LocalDate.now()));
-
-            /*
-        ps.setInt(4, idJornada);
-        ps.setInt(5, idSeccion);
-       
-             */
+            ps.setString(2, EstadoAsistencia.PRESENTE.toString());
+            ps.setDate(3, Date.valueOf(fecha));
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {

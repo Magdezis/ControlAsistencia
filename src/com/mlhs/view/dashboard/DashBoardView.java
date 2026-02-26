@@ -60,11 +60,13 @@ public class DashBoardView {
 
     public void buildUi() {
         configColumns();
+        //dejamos invisble el textfield
         lectorField.setEditable(true);
         lectorField.setOpacity(0);
-        //lectorField.setMouseTransparent(true);
+        lectorField.setMouseTransparent(true);
         lectorField.setFocusTraversable(true);
-        lectorField.setPrefSize(0, 0);
+       lectorField.setPrefSize(0, 0);
+       //logica de presentacion para el tableView
         tableViewListaEstudiantes.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY);
         datePickerAsistencia.setValue(LocalDate.now());
@@ -72,15 +74,13 @@ public class DashBoardView {
         comboBoxSeccion.setPrefWidth(150);
         contentActions.setPadding(new Insets(10));
         textFieldBuscarAlumno.setMaxWidth(300);
+        
         ColumnConstraints colUno = new ColumnConstraints();
         ColumnConstraints colDos = new ColumnConstraints();
-
         colUno.setHgrow(Priority.NEVER);
         colUno.setMaxWidth(300);
         colUno.setMinWidth(350);
-
         colDos.setHgrow(Priority.ALWAYS);
-
         RowConstraints rowUno = new RowConstraints();
         rowUno.setVgrow(Priority.ALWAYS);
         rowUno.setMinHeight(0);
@@ -90,7 +90,6 @@ public class DashBoardView {
 
         VBox boxActions = new VBox(10);
         boxActions.getChildren().addAll(
-                
                 labelJornada,
                 comboBoxJornada,
                 labelSeccion,
@@ -116,10 +115,8 @@ public class DashBoardView {
         GridPane.setHgrow(boxActions, Priority.NEVER);
         GridPane.setHgrow(boxList, Priority.ALWAYS);
         GridPane.setVgrow(boxList, Priority.ALWAYS);
-
         GridPane.setHgrow(contentActions, Priority.ALWAYS);
         GridPane.setVgrow(contentActions, Priority.ALWAYS);
-
         GridPane.setHgrow(contentTable, Priority.ALWAYS);
         GridPane.setVgrow(contentTable, Priority.ALWAYS);
 
@@ -131,12 +128,12 @@ public class DashBoardView {
 
         contentActions.getChildren().add(boxActions);
         contentTable.getChildren().add(boxList);
+        
         //definimos la ubicacion de cada nodo dentro del anchorPane
         AnchorPane.setTopAnchor(boxActions, 0.0);
         AnchorPane.setBottomAnchor(boxActions, 0.0);
         AnchorPane.setLeftAnchor(boxActions, 0.0);
         AnchorPane.setRightAnchor(boxActions, 0.0);
-
         AnchorPane.setTopAnchor(boxList, 0.0);
         AnchorPane.setBottomAnchor(boxList, 0.0);
         AnchorPane.setLeftAnchor(boxList, 0.0);
@@ -160,31 +157,22 @@ public class DashBoardView {
     
 
     public void setEventHandler() {
-        
-    
         lectorField.setOnKeyTyped(e -> {
             String carne = lectorField.getText().trim();
-
-            if (lectorField.getText().length() >=10) {
+            if (carne.length() == 10) {
                 dashBoardController.marcarAsistencia(carne);
-                System.out.println("llego y entro al metodo: " + carne);
                   lectorField.clear();
             lectorField.requestFocus();
-            }else{
-                System.out.println("llego, pero no entro al metodo: " + carne);
             }
-
-          
         });
 
         buttonSalir.setOnAction(e -> {
-            dashBoardController.handleLogout();
+            //dashBoardController.handleLogout();
         });
 
         buttonRegistrarNuevoAlumno.setOnAction(e -> {
             dashBoardController.handleRegisterAlumno();
         });
-
     }
 
     public Parent getRoot() {

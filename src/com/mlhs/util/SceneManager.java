@@ -27,9 +27,7 @@ public class SceneManager {
     private RegisterAlumnoView registerAlumnoView;
 
     public SceneManager(Stage stage) {
-
         this.stage = stage;
-
     }
 
     public void showLoginView() {
@@ -40,7 +38,6 @@ public class SceneManager {
         stage.setScene(scene);
         stage.setTitle("Asistencia");
         stage.centerOnScreen();
-        //  stage.setMaximized(true);
     }
 
     public void showDashBoardView() {
