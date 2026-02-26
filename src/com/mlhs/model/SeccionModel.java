@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mlhs.model;
 
 import com.mlhs.config.DataBaseConnection;
@@ -17,7 +13,6 @@ import javafx.collections.ObservableList;
  * @author Magno Solis
  */
 public class SeccionModel {
-
     private int idseccion;    
     private String codigo_seccion;
     
@@ -55,9 +50,6 @@ public class SeccionModel {
                         rs.getInt("idseccion"),
                         rs.getString("codigo_seccion")
                 ));
-
-                //jornadas.add(rs.getString("idJornada"));
-                //secciones.add(rs.getString("codigo_seccion"));
             }
             
         } catch (SQLException e) {

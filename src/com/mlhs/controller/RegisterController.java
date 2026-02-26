@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mlhs.controller;
 
 import com.mlhs.util.SceneManager;
@@ -35,7 +31,6 @@ public class RegisterController {
         this.jornadaModel = new JornadaModel();
         this.seccionModel = new SeccionModel();
         viewAlumnoRegister = new RegisterAlumnoView(this);
-        //loadComboBox();
     }
 
     public void handledReturn() {
@@ -60,17 +55,16 @@ public class RegisterController {
     }
 
     public void handleRegisterAlumno(String nombre, String apellido, int fk_jornada, int fk_seccion, String codigoTarjeta, String correoInstitucional, String carneEstudiante) {
-        String registerAlumno = "INSERT INTO ESTUDIANTES(nombre, apellido,asistencia,fechaAsistencia, fk_jornada, fk_seccion, codigoTarjeta, correoInstitucional, carneEstudiante)"
-                + "VALUES(?,?,'PENDIENTE',?,?,?,?,?,?)";
+        String registerAlumno = "INSERT INTO ESTUDIANTES(nombre,apellido,fk_jornada, fk_seccion, codigoTarjeta, correoInstitucional, carneEstudiante)"
+                + "VALUES(?,?,?,?,?,?,?)";
         try (Connection conn = DataBaseConnection.getConnection(); PreparedStatement pstm = conn.prepareStatement(registerAlumno);) {
             pstm.setString(1, nombre);
             pstm.setString(2, apellido);
-            pstm.setObject(3, LocalDate.now());
-            pstm.setInt(4, fk_jornada);
-            pstm.setInt(5, fk_seccion);
-            pstm.setString(6, codigoTarjeta);
-            pstm.setString(7, correoInstitucional);
-            pstm.setString(8, carneEstudiante);
+            pstm.setInt(3, fk_jornada);
+            pstm.setInt(4, fk_seccion);
+            pstm.setString(5, codigoTarjeta);
+            pstm.setString(6, correoInstitucional);
+            pstm.setString(7, carneEstudiante);
 
             int rowsAffected = pstm.executeUpdate();
             if (rowsAffected == 1) {
@@ -91,10 +85,8 @@ public class RegisterController {
     public void loadComboBox() {
         viewAlumnoRegister.getComboBoxJornada().setItems(jornadaModel.obtenerJornadas());
         viewAlumnoRegister.getComboBoxJornada().getSelectionModel().selectFirst();
-        //view.getComboBoxJornada().setValue(jornadaModel.obtenerJornadas().get(0));
         viewAlumnoRegister.getComboBoxSeccion().setItems(seccionModel.obtenerSecciones());
         viewAlumnoRegister.getComboBoxSeccion().getSelectionModel().selectFirst();
-        System.out.println("metodo ejecutado: ");
     }
 
     public void setDashBoard(RegisterAlumnoView view) {

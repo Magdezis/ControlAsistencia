@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mlhs.controller;
 
 import com.mlhs.model.AlumnosAsistenciaModel;
@@ -13,6 +9,7 @@ import com.mlhs.view.dashboard.DashBoardView;
 import com.mlhs.view.edit.EditInfoView;
 import java.time.LocalDate;
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
 
 /**
  *
@@ -31,18 +28,11 @@ public class DashBoardController {
         this.jornadaModel = new JornadaModel();
         this.seccionModel = new SeccionModel();
         this.sceneManager = sceneManager;
-
-    }
-
-    public void handleLogout() {
-
     }
 
     public void loadComboBox() {
-        
         view.getComboBoxJornada().setItems(jornadaModel.obtenerJornadas());
         view.getComboBoxJornada().getSelectionModel().selectLast();
-        //view.getComboBoxJornada().setValue(jornadaModel.obtenerJornadas().get(0));
        view.getComboBoxSeccion().setItems(seccionModel.obtenerSecciones());
        view.getComboBoxSeccion().getSelectionModel().selectFirst();
     }
@@ -56,7 +46,6 @@ public class DashBoardController {
 
     public void cargarEstudiantes(String jornada, String seccion, LocalDate fecha) {
         ObservableList<AlumnosAsistenciaModel> datosAlumnos = AlumnosAsistenciaModel.obtenerAsistencias(jornada, seccion, fecha);
-        System.out.println("alumnos registrados: " + datosAlumnos.size());
         view.getTableViewAsistencias().setItems(datosAlumnos);
     }
 
@@ -68,16 +57,13 @@ public class DashBoardController {
                jornada.getTipoJornada(),
                seccion.getCodigo_seccion(),
                view.getDatePickerAsistencia().getValue());
-
     }
     
 
     private void configurarEventos() {
 
         view.getComboBoxJornada().setOnAction(e -> actualizarTabla());
-
         view.getComboBoxSeccion().setOnAction(e -> actualizarTabla());
-
         view.getDatePickerAsistencia()
                 .valueProperty()
                 .addListener((obs, oldVal, newVal) -> actualizarTabla());
@@ -92,7 +78,7 @@ public class DashBoardController {
                         .getSelectedItem();
 
         if (alumnoSeleccionado == null) {
-            System.out.println("⚠️ No hay alumno seleccionado");
+            System.out.println(" No hay alumno seleccionado");
             return;
         }
         sceneManager.showEditView();
@@ -117,27 +103,19 @@ public void marcarAsistencia(String carne) {
 
     JornadaModel jornada = view.getComboBoxJornada().getValue();
     SeccionModel seccion = view.getComboBoxSeccion().getValue();
+    LocalDate fecha = view.getDatePickerAsistencia().getValue(); 
 
-    if (jornada == null || seccion == null) {
-        System.out.println("⚠️ Jornada o sección no seleccionada");
+    if (view.getComboBoxJornada().getValue()== null || seccion == null) {
         return;
     }
-
     boolean marcado = AlumnosAsistenciaModel.marcarPresente(
             carne,
-            jornada.getIdJornada(),
-            seccion.getIdseccion()
-    );
-
-    if (!marcado) {
-        System.out.println("ℹ️ Asistencia ya marcada o alumno no encontrado");
-        System.out.println("carne" + carne);
+            EstadoAsistencia.PRESENTE,
+            fecha);
+    if (marcado== true) {
+        actualizarTabla();
         return;
-    }
-
-    actualizarTabla();
-    System.out.println("✅ Asistencia marcada: " + carne);
 }
-
+}
   
 }

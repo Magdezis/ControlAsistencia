@@ -11,9 +11,7 @@ package com.mlhs.config;
 public class DataBaseConfig {
     
     private DataBaseConfig(){};
-    
-    public static final String URL = "jdbc:mysql://localhost:3306/asistencia_kinal2026";
-    public static final String USER = "Magdezis"; 
-    public static final String PASSWORD = "1080"; 
-   
+    public static final String URL = System.getenv("URL_MYSQL_DB")+"/asistencia_kinal2026";
+    public static final String USER = System.getenv("USER_MYSQL_DB"); 
+    public static final String PASSWORD = System.getenv("PASS_MYSQL_DB"); 
 }
